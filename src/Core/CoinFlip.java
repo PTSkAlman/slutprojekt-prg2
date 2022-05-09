@@ -3,8 +3,11 @@ package Core;
 import java.util.Random;
 
 public class CoinFlip {
-    public CoinFlip() {
 
+    private int streak;
+
+    public CoinFlip() {
+        streak = 0;
     }
 
     public int flip(int guess) {
@@ -12,10 +15,11 @@ public class CoinFlip {
         int result = random.nextInt(2);
 
         if (result == guess) {
-            System.out.println("Correct");
+            streak++;
         } else {
-            System.out.println("Wrong");
+            streak = 0;
         }
+        System.out.println(streak);
 
         return result;
     }
