@@ -11,9 +11,10 @@ public class View extends JFrame {
     private JMenuItem coinFlip, higherOrLower;
 
     private JPanel panel;
-    private JButton flipButton;
-    private JToggleButton heads, tails;
+    private JButton guessButton;
+    private JToggleButton heads, tails, higher, lower;
     private ButtonGroup buttonGroup;
+    private JTextField current, next;
 
     private int guess;
 
@@ -41,8 +42,9 @@ public class View extends JFrame {
     }
 
     public void newFlipGame() {
+        clearFrame();
         panel = new JPanel();
-        flipButton = new JButton("Flip");
+        guessButton = new JButton("Guess");
         buttonGroup = new ButtonGroup();
         heads = new JToggleButton("Heads");
         tails = new JToggleButton("Tails");
@@ -60,14 +62,52 @@ public class View extends JFrame {
         panel.add(heads);
         panel.add(tails);
 
-        panel.add(flipButton);
+        panel.add(guessButton);
 
         this.add(panel);
     }
 
-    // Getters
-    public JButton getFlipButton() {
-        return flipButton;
+    public void newHigherOrLowerGame() {
+        clearFrame();
+        panel = new JPanel();
+        guessButton = new JButton("Guess");
+        current = new JTextField();
+        next = new JTextField();
+        buttonGroup = new ButtonGroup();
+        higher = new JToggleButton("Higher");
+        lower = new JToggleButton("Lower");
+        ActionListener listener = actionEvent -> {
+            if (actionEvent.getActionCommand().equals("Higher")) {
+                guess = 1;
+            } else if (actionEvent.getActionCommand().equals("Lower")) {
+                guess = 0;
+            }
+        };
+        higher.addActionListener(listener);
+        lower.addActionListener(listener);
+        buttonGroup.add(higher);
+        buttonGroup.add(lower);
+        panel.add(higher);
+        panel.add(lower);
+
+        panel.add(guessButton);
+
+        current.setEditable(false);
+        next.setEditable(false);
+        panel.add(current);
+        panel.add(next);
+
+        this.add(panel);
+    }
+
+    private void clearFrame() {
+        this.getContentPane().removeAll();
+        this.repaint();
+    }
+
+    // Getters & Setters
+    public JButton getGuessButton() {
+        return guessButton;
     }
     public int getGuess() {
         return guess;
@@ -77,5 +117,11 @@ public class View extends JFrame {
     }
     public JMenuItem getHigherOrLower() {
         return higherOrLower;
+    }
+    public void setCurrentNumber(int num) {
+        current.setText(num+"");
+    }
+    public void setNextNumber(int num) {
+        next.setText(num+"");
     }
 }
