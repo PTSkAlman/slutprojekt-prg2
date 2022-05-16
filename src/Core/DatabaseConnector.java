@@ -33,6 +33,18 @@ public class DatabaseConnector {
         }
     }
 
+    public void register() {
+        String hash = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        try {
+            Statement statement = connection.createStatement();
+            String SQLQuery = "INSERT INTO jolabn_login (username, password) VALUES ('" + username + "', '" + hash +"')";
+            statement.execute(SQLQuery);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
     public User login() {
         try {
             Statement statement = connection.createStatement();
@@ -48,7 +60,11 @@ public class DatabaseConnector {
                 String[] splitStr = user.split(" ");
                 System.out.println(splitStr[2]);
                 if (BCrypt.checkpw(password, splitStr[2])) {
-                    return new User(splitStr[1],0,0,false);
+                    boolean admin = false;
+                    if (splitStr[1].equals("arne")) {
+                        admin = true;
+                    }
+                    return new User(splitStr[1],0,0,admin);
                 } else {
                     return null;
                 }

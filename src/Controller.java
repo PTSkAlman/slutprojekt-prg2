@@ -10,6 +10,7 @@ public class Controller {
     public Controller() {
         DatabaseConnector dbc = new DatabaseConnector();
         dbc.login();
+        //dbc.register();
         View view = new View("Game");
         view.init();
 
