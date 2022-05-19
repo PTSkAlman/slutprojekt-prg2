@@ -20,12 +20,15 @@ public class CoinFlip {
         } else {
             if (streak > highscore) {
                 highscore = streak;
+                // Database save highscore
             }
             streak = 0;
         }
-        System.out.println(streak);
-
         return result;
+    }
+
+    public int getStreak() {
+        return streak;
     }
 
     public int getHighscore() {

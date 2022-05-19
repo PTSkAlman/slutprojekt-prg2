@@ -16,7 +16,6 @@ public class HigherOrLower {
 
     public void guess(int choice) {
         next = random.nextInt(13)+1;
-        System.out.println(current+" "+next);
         if (choice == 0 && current >= next) {
             streak++;
         } else if (choice == 1 && current <= next) {
@@ -28,7 +27,6 @@ public class HigherOrLower {
             streak = 0;
         }
         current = next;
-        System.out.println(streak);
     }
 
     public int getCurrent() {
@@ -36,6 +34,9 @@ public class HigherOrLower {
     }
     public int getNext() {
         return next;
+    }
+    public int getStreak() {
+        return streak;
     }
     public int getHighscore() {
         return highscore;

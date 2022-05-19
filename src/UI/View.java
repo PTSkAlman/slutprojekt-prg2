@@ -14,7 +14,7 @@ public class View extends JFrame {
     private JButton guessButton;
     private JToggleButton heads, tails, higher, lower;
     private ButtonGroup buttonGroup;
-    private JTextField current, next;
+    private JTextField current, next, streakField;
 
     private int guess;
 
@@ -45,6 +45,7 @@ public class View extends JFrame {
         clearFrame();
         panel = new JPanel();
         guessButton = new JButton("Guess");
+        streakField = new JTextField();
         buttonGroup = new ButtonGroup();
         heads = new JToggleButton("Heads");
         tails = new JToggleButton("Tails");
@@ -63,6 +64,8 @@ public class View extends JFrame {
         panel.add(tails);
 
         panel.add(guessButton);
+        streakField.setEditable(false);
+        panel.add(streakField);
 
         this.add(panel);
     }
@@ -73,6 +76,7 @@ public class View extends JFrame {
         guessButton = new JButton("Guess");
         current = new JTextField();
         next = new JTextField();
+        streakField = new JTextField();
         buttonGroup = new ButtonGroup();
         higher = new JToggleButton("Higher");
         lower = new JToggleButton("Lower");
@@ -96,6 +100,8 @@ public class View extends JFrame {
         next.setEditable(false);
         panel.add(current);
         panel.add(next);
+        streakField.setEditable(false);
+        panel.add(streakField);
 
         this.add(panel);
     }
@@ -123,5 +129,8 @@ public class View extends JFrame {
     }
     public void setNextNumber(int num) {
         next.setText(num+"");
+    }
+    public void setStreak(int streak) {
+        streakField.setText(streak+"");
     }
 }

@@ -19,7 +19,6 @@ public class DatabaseConnector {
         JOptionPane.showConfirmDialog(null, pf, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         password = new String(pf.getPassword());
         username = uf.getText();
-        System.out.println(BCrypt.hashpw(password, BCrypt.gensalt(10)));
 
         try {
             connection = DriverManager.getConnection(
@@ -56,12 +55,12 @@ public class DatabaseConnector {
                 String user = rset.getInt("id") + " " +
                         rset.getString("username") + " " +
                         rset.getString("password") + " " +
-                        rset.getString("created_at");
+                        rset.getString("created_at") + " " +
+                        rset.getInt("admin");
                 String[] splitStr = user.split(" ");
-                System.out.println(splitStr[2]);
                 if (BCrypt.checkpw(password, splitStr[2])) {
                     boolean admin = false;
-                    if (splitStr[1].equals("arne")) {
+                    if (splitStr[4].equals("1")) {
                         admin = true;
                     }
                     return new User(splitStr[1],0,0,admin);
