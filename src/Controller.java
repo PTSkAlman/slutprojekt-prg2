@@ -1,15 +1,18 @@
 import Core.CoinFlip;
 import Core.DatabaseConnector;
 import Core.HigherOrLower;
+import Core.User;
 import UI.View;
 
 import javax.swing.*;
 
 public class Controller {
 
+    private User user;
+
     public Controller() {
         DatabaseConnector dbc = new DatabaseConnector();
-        dbc.login();
+        user = dbc.login();
         View view = new View("Game");
         view.init();
         viewListeners(view);
@@ -17,7 +20,7 @@ public class Controller {
 
     private void viewListeners(View view) {
         view.getCoinFlip().addActionListener(actionEvent -> {
-            CoinFlip cf = new CoinFlip();
+            CoinFlip cf = new CoinFlip(user);
             view.newFlipGame();
             SwingUtilities.updateComponentTreeUI(view);
             view.getGuessButton().addActionListener(actionEvent1 -> {
@@ -28,7 +31,7 @@ public class Controller {
         });
 
         view.getHigherOrLower().addActionListener(actionEvent -> {
-            HigherOrLower hl = new HigherOrLower();
+            HigherOrLower hl = new HigherOrLower(user);
             view.newHigherOrLowerGame();
             view.setCurrentNumber(hl.getCurrent());
             SwingUtilities.updateComponentTreeUI(view);

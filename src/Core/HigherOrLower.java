@@ -6,10 +6,11 @@ public class HigherOrLower {
 
     private int streak, highscore, current, next;
     private Random random;
+    private User user;
 
-    public HigherOrLower() {
+    public HigherOrLower(User user) {
         streak = 0;
-        highscore = 0;
+        highscore = user.getHlScore();
         random = new Random();
         current = random.nextInt(13)+1;
     }

@@ -5,14 +5,16 @@ import java.util.Random;
 public class CoinFlip {
 
     private int streak, highscore;
+    private Random random;
+    private User user;
 
-    public CoinFlip() {
+    public CoinFlip(User user) {
         streak = 0;
-        highscore = 0;
+        highscore = user.getCfScore();
+        random = new Random();
     }
 
     public int flip(int guess) {
-        Random random = new Random();
         int result = random.nextInt(2);
 
         if (result == guess) {

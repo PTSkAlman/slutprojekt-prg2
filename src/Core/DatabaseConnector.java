@@ -58,12 +58,25 @@ public class DatabaseConnector {
                         rset.getString("created_at") + " " +
                         rset.getInt("admin");
                 String[] splitStr = user.split(" ");
+                String scores;
+                String[] splitStr2 = new String[3];
+                String SQLQuery2 = "SELECT jolabn_login.*, jolabn_scores.* FROM jolabn_login JOIN jolabn_scores ON jolabn_login.id = jolabn_scores.user_id WHERE jolabn_login.id = '"+splitStr[0]+"'";
+
+                ResultSet rset2 = statement.executeQuery(SQLQuery2);
+                while (rset2.next()) {
+                    scores = rset2.getInt("id") + " " +
+                            rset2.getInt("coinflip_highscore") + " " +
+                            rset2.getInt("higher_or_lower_highscore") + " " +
+                            rset2.getInt("user_id");
+                    splitStr2 = scores.split(" ");
+                }
+
                 if (BCrypt.checkpw(password, splitStr[2])) {
                     boolean admin = false;
                     if (splitStr[4].equals("1")) {
                         admin = true;
                     }
-                    return new User(splitStr[1],0,0,admin);
+                    return new User(Integer.parseInt(splitStr[0]), splitStr[1],Integer.parseInt(splitStr2[1]), Integer.parseInt(splitStr2[2]),admin);
                 } else {
                     return null;
                 }
