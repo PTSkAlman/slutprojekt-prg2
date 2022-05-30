@@ -14,6 +14,7 @@ public class User {
         this.admin = admin;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -28,5 +29,13 @@ public class User {
 
     public int getCfScore() {
         return cfScore;
+    }
+
+    public void setCfScore(int highscore) {
+        this.cfScore = highscore;
+    }
+
+    public void setHlScore(int highscore) {
+        this.hlScore = highscore;
     }
 }

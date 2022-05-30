@@ -7,10 +7,13 @@ public class HigherOrLower {
     private int streak, highscore, current, next;
     private Random random;
     private User user;
+    private DatabaseConnector dbc;
 
-    public HigherOrLower(User user) {
+    public HigherOrLower(User user, DatabaseConnector databaseConnector) {
         streak = 0;
         highscore = user.getHlScore();
+        this.dbc = databaseConnector;
+        this.user = user;
         random = new Random();
         current = random.nextInt(13)+1;
     }
@@ -23,7 +26,8 @@ public class HigherOrLower {
             streak++;
         } else {
             if (streak > highscore) {
-                highscore = streak;
+                user.setHlScore(streak);
+                dbc.updateScore(user);
             }
             streak = 0;
         }

@@ -7,10 +7,13 @@ public class CoinFlip {
     private int streak, highscore;
     private Random random;
     private User user;
+    private DatabaseConnector dbc;
 
-    public CoinFlip(User user) {
+    public CoinFlip(User user, DatabaseConnector databaseConnector) {
         streak = 0;
         highscore = user.getCfScore();
+        this.dbc = databaseConnector;
+        this.user = user;
         random = new Random();
     }
 
@@ -21,8 +24,8 @@ public class CoinFlip {
             streak++;
         } else {
             if (streak > highscore) {
-                highscore = streak;
-                // Database save highscore
+                user.setCfScore(streak);
+                dbc.updateScore(user);
             }
             streak = 0;
         }

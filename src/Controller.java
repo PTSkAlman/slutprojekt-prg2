@@ -9,9 +9,10 @@ import javax.swing.*;
 public class Controller {
 
     private User user;
+    private DatabaseConnector dbc;
 
     public Controller() {
-        DatabaseConnector dbc = new DatabaseConnector();
+        dbc = new DatabaseConnector();
         user = dbc.login();
         View view = new View("Game");
         view.init();
@@ -20,7 +21,7 @@ public class Controller {
 
     private void viewListeners(View view) {
         view.getCoinFlip().addActionListener(actionEvent -> {
-            CoinFlip cf = new CoinFlip(user);
+            CoinFlip cf = new CoinFlip(user, dbc);
             view.newFlipGame();
             SwingUtilities.updateComponentTreeUI(view);
             view.getGuessButton().addActionListener(actionEvent1 -> {
@@ -31,7 +32,7 @@ public class Controller {
         });
 
         view.getHigherOrLower().addActionListener(actionEvent -> {
-            HigherOrLower hl = new HigherOrLower(user);
+            HigherOrLower hl = new HigherOrLower(user, dbc);
             view.newHigherOrLowerGame();
             view.setCurrentNumber(hl.getCurrent());
             SwingUtilities.updateComponentTreeUI(view);

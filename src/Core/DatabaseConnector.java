@@ -12,14 +12,6 @@ public class DatabaseConnector {
     private String password;
 
     public DatabaseConnector() {
-
-        JPasswordField pf = new JPasswordField();
-        JTextField uf = new JTextField();
-        JOptionPane.showConfirmDialog(null, uf, "Enter Username", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        JOptionPane.showConfirmDialog(null, pf, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        password = new String(pf.getPassword());
-        username = uf.getText();
-
         try {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://"+ env.DBURL +":"+ env.DBPORT +"/"+ env.DBNAME +"? " +
@@ -45,6 +37,12 @@ public class DatabaseConnector {
     }
 
     public User login() {
+        JPasswordField pf = new JPasswordField();
+        JTextField uf = new JTextField();
+        JOptionPane.showConfirmDialog(null, uf, "Enter Username", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showConfirmDialog(null, pf, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        password = new String(pf.getPassword());
+        username = uf.getText();
         try {
             Statement statement = connection.createStatement();
             String SQLQuery = "SELECT * FROM jolabn_login WHERE username = " + "'" + username + "'";
@@ -85,6 +83,18 @@ public class DatabaseConnector {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    public void updateScore(User user) {
+        try {
+            Statement statement = connection.createStatement();
+            String SQLQuery = "UPDATE jolabn_scores SET coinflip_highscore = '" + user.getCfScore() + "', higher_or_lower_highscore = '" + user.getHlScore() + "' WHERE user_id = '" + user.getId()+"'";
+            System.out.println(SQLQuery);
+            statement.execute(SQLQuery);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
 }
