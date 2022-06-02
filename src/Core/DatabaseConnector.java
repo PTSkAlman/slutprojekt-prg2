@@ -2,14 +2,11 @@ package Core;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.swing.*;
 import java.sql.*;
 
 public class DatabaseConnector {
 
     Connection connection;
-    private String username;
-    private String password;
 
     public DatabaseConnector() {
         try {
@@ -24,25 +21,31 @@ public class DatabaseConnector {
         }
     }
 
-    public void register() {
-        String hash = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        try {
-            Statement statement = connection.createStatement();
-            String SQLQuery = "INSERT INTO jolabn_login (username, password) VALUES ('" + username + "', '" + hash +"')";
-            statement.execute(SQLQuery);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    public void register(String username, String password) {
+        if (username.length() >= 3 && password.length() >= 8) {
+            System.out.println("test");
+            String hash = BCrypt.hashpw(password, BCrypt.gensalt(10));
+            try {
+                Statement statement = connection.createStatement();
+                String SQLQuery = "INSERT INTO jolabn_login (username, password) VALUES ('" + username + "', '" + hash +"')";
+                statement.execute(SQLQuery);
+                String SQLQuery2 = "SELECT * FROM jolabn_login WHERE username = " + "'" + username + "'";
+                ResultSet rset = statement.executeQuery(SQLQuery2);
+                int id = 0;
+                while (rset.next()) {
+                    id = rset.getInt("id");
+                }
+                String SQLQuery3 = "INSERT INTO jolabn_scores (user_id) VALUES ('" + id + "')";
+                statement.execute(SQLQuery3);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-
     }
 
-    public User login() {
-        JPasswordField pf = new JPasswordField();
-        JTextField uf = new JTextField();
-        JOptionPane.showConfirmDialog(null, uf, "Enter Username", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        JOptionPane.showConfirmDialog(null, pf, "Enter Password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        password = new String(pf.getPassword());
-        username = uf.getText();
+    public User login(String username, String password) {
+        //password = new String(pf.getPassword());
+        //username = uf.getText();
         try {
             Statement statement = connection.createStatement();
             String SQLQuery = "SELECT * FROM jolabn_login WHERE username = " + "'" + username + "'";

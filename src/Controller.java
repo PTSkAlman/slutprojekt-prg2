@@ -2,9 +2,12 @@ import Core.CoinFlip;
 import Core.DatabaseConnector;
 import Core.HigherOrLower;
 import Core.User;
+import UI.Login;
 import UI.View;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Controller {
 
@@ -13,10 +16,21 @@ public class Controller {
 
     public Controller() {
         dbc = new DatabaseConnector();
-        user = dbc.login();
-        View view = new View("Game");
-        view.init();
-        viewListeners(view);
+        //user = dbc.login();
+        Login login = new Login();
+        login.getLogin().addActionListener(actionEvent -> {
+            if (dbc.login(login.getUsername(), login.getPassword()) != null) {
+                login.dispose();
+                View view = new View("Game");
+                view.init();
+                viewListeners(view);
+            }
+        });
+        login.getCreate().addActionListener(actionEvent -> {
+            if (login.getUsername().length() >= 3 && login.getPassword().length() >= 8) {
+                dbc.register(login.getUsername(), login.getPassword());
+            }
+        });
     }
 
     private void viewListeners(View view) {
