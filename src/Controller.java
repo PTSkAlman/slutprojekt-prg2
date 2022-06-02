@@ -13,15 +13,15 @@ public class Controller {
 
     private User user;
     private DatabaseConnector dbc;
+    private View view = new View("Game");
 
     public Controller() {
         dbc = new DatabaseConnector();
-        //user = dbc.login();
         Login login = new Login();
         login.getLogin().addActionListener(actionEvent -> {
             if (dbc.login(login.getUsername(), login.getPassword()) != null) {
+                user = dbc.login(login.getUsername(), login.getPassword());
                 login.dispose();
-                View view = new View("Game");
                 view.init();
                 viewListeners(view);
             }

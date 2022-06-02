@@ -28,6 +28,7 @@ public class HigherOrLower {
             if (streak > highscore) {
                 user.setHlScore(streak);
                 dbc.updateScore(user);
+                highscore = streak;
             }
             streak = 0;
         }

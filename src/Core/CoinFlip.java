@@ -26,6 +26,7 @@ public class CoinFlip {
             if (streak > highscore) {
                 user.setCfScore(streak);
                 dbc.updateScore(user);
+                highscore = streak;
             }
             streak = 0;
         }

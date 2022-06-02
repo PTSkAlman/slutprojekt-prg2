@@ -23,7 +23,6 @@ public class DatabaseConnector {
 
     public void register(String username, String password) {
         if (username.length() >= 3 && password.length() >= 8) {
-            System.out.println("test");
             String hash = BCrypt.hashpw(password, BCrypt.gensalt(10));
             try {
                 Statement statement = connection.createStatement();
@@ -92,7 +91,6 @@ public class DatabaseConnector {
         try {
             Statement statement = connection.createStatement();
             String SQLQuery = "UPDATE jolabn_scores SET coinflip_highscore = '" + user.getCfScore() + "', higher_or_lower_highscore = '" + user.getHlScore() + "' WHERE user_id = '" + user.getId()+"'";
-            System.out.println(SQLQuery);
             statement.execute(SQLQuery);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
