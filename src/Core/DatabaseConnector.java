@@ -2,6 +2,7 @@ package Core;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class DatabaseConnector {
@@ -9,11 +10,12 @@ public class DatabaseConnector {
     Connection connection;
 
     public DatabaseConnector() {
+        String password = JOptionPane.showInputDialog(null, "Database password");
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://"+ env.DBURL +":"+ env.DBPORT +"/"+ env.DBNAME +"? " +
+                    "jdbc:mysql://"+ "db.umea-ntig.se" +":"+ "3306" +"/"+ "te19" +"? " +
                             "allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
-                    env.DBNAME, env.DBPASSWORD);
+                    "te19", password);
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Database error!");
