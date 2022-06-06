@@ -1,5 +1,7 @@
 package UI;
 
+import Core.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -15,11 +17,17 @@ public class View extends JFrame {
     private JToggleButton heads, tails, higher, lower;
     private ButtonGroup buttonGroup;
     private JTextField current, next, streakField;
+    private JTextField highscoreField = new JTextField();
+
+    private JLabel highscore;
+
+    private User user;
 
     private int guess;
 
-    public View(String title) {
+    public View(String title, User user) {
         this.setTitle(title);
+        this.user = user;
     }
 
     public void init() {
@@ -47,6 +55,8 @@ public class View extends JFrame {
         guessButton = new JButton("Guess");
         streakField = new JTextField();
         buttonGroup = new ButtonGroup();
+        highscore = new JLabel("Highscore:");
+        highscoreField.setEditable(false);
         heads = new JToggleButton("Heads");
         tails = new JToggleButton("Tails");
         ActionListener listener = actionEvent -> {
@@ -66,6 +76,8 @@ public class View extends JFrame {
         panel.add(guessButton);
         streakField.setEditable(false);
         panel.add(streakField);
+        panel.add(highscore);
+        panel.add(highscoreField);
 
         this.add(panel);
     }
@@ -78,6 +90,8 @@ public class View extends JFrame {
         next = new JTextField();
         streakField = new JTextField();
         buttonGroup = new ButtonGroup();
+        highscore = new JLabel("Highscore:");
+        highscoreField.setEditable(false);
         higher = new JToggleButton("Higher");
         lower = new JToggleButton("Lower");
         ActionListener listener = actionEvent -> {
@@ -132,5 +146,8 @@ public class View extends JFrame {
     }
     public void setStreak(int streak) {
         streakField.setText(streak+"");
+    }
+    public void setHighscore(int highscore) {
+        highscoreField.setText(highscore+"");
     }
 }

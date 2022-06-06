@@ -6,14 +6,12 @@ import UI.Login;
 import UI.View;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Controller {
 
     private User user;
     private DatabaseConnector dbc;
-    private View view = new View("Game");
+    private View view;
 
     public Controller() {
         dbc = new DatabaseConnector();
@@ -21,6 +19,7 @@ public class Controller {
         login.getLogin().addActionListener(actionEvent -> {
             if (dbc.login(login.getUsername(), login.getPassword()) != null) {
                 user = dbc.login(login.getUsername(), login.getPassword());
+                view = new View("Game", user);
                 login.dispose();
                 view.init();
                 viewListeners(view);
@@ -36,9 +35,11 @@ public class Controller {
     private void viewListeners(View view) {
         view.getCoinFlip().addActionListener(actionEvent -> {
             CoinFlip cf = new CoinFlip(user, dbc);
+            view.setHighscore(user.getCfScore());
             view.newFlipGame();
             SwingUtilities.updateComponentTreeUI(view);
             view.getGuessButton().addActionListener(actionEvent1 -> {
+                view.setHighscore(user.getCfScore());
                 cf.flip(view.getGuess());
                 view.setStreak(cf.getStreak());
                 SwingUtilities.updateComponentTreeUI(view);
@@ -47,10 +48,12 @@ public class Controller {
 
         view.getHigherOrLower().addActionListener(actionEvent -> {
             HigherOrLower hl = new HigherOrLower(user, dbc);
+            view.setHighscore(user.getHlScore());
             view.newHigherOrLowerGame();
             view.setCurrentNumber(hl.getCurrent());
             SwingUtilities.updateComponentTreeUI(view);
             view.getGuessButton().addActionListener(actionEvent1 -> {
+                view.setHighscore(user.getHlScore());
                 view.setCurrentNumber(hl.getCurrent());
                 hl.guess(view.getGuess());
                 view.setNextNumber(hl.getNext());
